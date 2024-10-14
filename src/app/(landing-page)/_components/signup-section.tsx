@@ -4,10 +4,7 @@ import Link from "next/link";
 
 export const SignupSection = () => {
   return (
-    <section
-      id="get-started"
-      className="w-full py-12 md:py-24 lg:py-32 bg-muted flex justify-center"
-    >
+    <section className="w-full py-12 md:py-24 lg:py-32 bg-muted flex justify-center">
       <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
         <div className="space-y-3">
           <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">

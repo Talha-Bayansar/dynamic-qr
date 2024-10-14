@@ -1,46 +1,43 @@
 import { Logo } from "@/components/logo";
+import { Button } from "@/components/ui/button";
+import { routes } from "@/lib/routes";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export const Header = () => {
   return (
-    <header className="px-4 lg:px-6 h-14 flex items-center">
-      <Link
-        href="#"
-        className="flex items-center justify-center"
-        prefetch={false}
-      >
-        <Logo className="h-6 w-6" />
+    <header className="px-4 lg:px-6 flex flex-col items-center py-4 md:flex-row gap-4 justify-between">
+      <Link href={routes.root} className="flex items-center justify-center">
+        <Logo className="h-10 w-10" />
         <span className="sr-only">DynamicQR</span>
       </Link>
-      <nav className="ml-auto flex gap-4 sm:gap-6">
-        <Link
-          href="#about"
-          className="text-sm font-medium hover:underline underline-offset-4"
-          prefetch={false}
-        >
-          About
-        </Link>
-        <Link
-          href="#features"
-          className="text-sm font-medium hover:underline underline-offset-4"
-          prefetch={false}
-        >
-          Features
-        </Link>
-        <Link
-          href="#pricing"
-          className="text-sm font-medium hover:underline underline-offset-4"
-          prefetch={false}
-        >
-          Pricing
-        </Link>
-        <Link
-          href="#get-started"
-          className="text-sm font-medium hover:underline underline-offset-4"
-          prefetch={false}
-        >
-          Get started
-        </Link>
+      <nav className="flex flex-col gap-4 sm:gap-6 items-center md:flex-row">
+        <div className="flex gap-4 items-center">
+          <Link
+            href={`${routes.root}#about`}
+            className="text-sm font-medium hover:underline underline-offset-4"
+          >
+            About
+          </Link>
+          <Link
+            href={`${routes.root}#features`}
+            className="text-sm font-medium hover:underline underline-offset-4"
+          >
+            Features
+          </Link>
+          <Link
+            href={`${routes.root}#pricing`}
+            className="text-sm font-medium hover:underline underline-offset-4"
+          >
+            Pricing
+          </Link>
+        </div>
+
+        <Button asChild size={"sm"} className="flex gap-2">
+          <Link href={routes.staticQRCode.root}>
+            Free Static QR Code <ArrowRight size={16} />
+          </Link>
+        </Button>
       </nav>
     </header>
   );
