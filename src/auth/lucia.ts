@@ -1,3 +1,5 @@
+"use server";
+
 import { eq } from "drizzle-orm";
 import {
   encodeBase32LowerCaseNoPadding,
@@ -9,7 +11,7 @@ import { db } from "@/db";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
-function generateSessionToken(): string {
+async function generateSessionToken() {
   const bytes = new Uint8Array(20);
   crypto.getRandomValues(bytes);
   const token = encodeBase32LowerCaseNoPadding(bytes);
@@ -17,7 +19,7 @@ function generateSessionToken(): string {
 }
 
 export async function createSession(userId: number): Promise<Session> {
-  const token = generateSessionToken();
+  const token = await generateSessionToken();
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session: Session = {
     id: sessionId,
@@ -31,7 +33,7 @@ export async function createSession(userId: number): Promise<Session> {
 export async function validateSessionToken(
   token: string
 ): Promise<SessionValidationResult> {
-  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+  const sessionId = token;
   const result = await db
     .select({ user: userTable, session: sessionTable })
     .from(sessionTable)
@@ -61,7 +63,7 @@ export async function invalidateSession(sessionId: string): Promise<void> {
   await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
 }
 
-export function setSessionTokenCookie(token: string): void {
+export async function setSessionTokenCookie(token: string) {
   cookies().set("session", token, {
     httpOnly: true,
     sameSite: "lax",
@@ -97,7 +99,7 @@ export const validateRequest = cache(
     // next.js throws when you attempt to set cookie when rendering page
     try {
       if (result.session && result.session.expiresAt > new Date()) {
-        setSessionTokenCookie(result.session.id);
+        await setSessionTokenCookie(result.session.id);
       }
       if (!result.session) {
         deleteSessionTokenCookie();

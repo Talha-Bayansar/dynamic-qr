@@ -6,4 +6,7 @@ export const routes = {
   staticQRCode: {
     root: "/static-qr-code",
   },
+  dashboard: {
+    root: "/dashboard",
+  },
 };

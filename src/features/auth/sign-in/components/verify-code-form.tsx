@@ -50,7 +50,7 @@ export const VerifyCodeForm = ({ email }: Props) => {
     });
 
     if (response?.data?.success) {
-      router.push(routes.staticQRCode.root);
+      router.push(routes.dashboard.root);
     } else {
       toast.error(response?.data?.message);
     }

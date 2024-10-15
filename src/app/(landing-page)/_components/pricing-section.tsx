@@ -1,5 +1,11 @@
+"use server";
+
 import { Button } from "@/components/ui/button";
+import { CheckoutButton } from "@/features/subscription/checkout-subscription/components/checkout-button";
+import { routes } from "@/lib/routes";
+import { getStripePrices, getStripeProducts } from "@/stripe";
 import { CheckIcon } from "lucide-react";
+import Link from "next/link";
 
 type SubscriptionPlan = {
   title: string;
@@ -7,38 +13,53 @@ type SubscriptionPlan = {
   price: number;
   features: string[];
   buttonText: string;
-  buttonLink: string;
+  priceId: string;
 };
 
-const subscriptionPlans: SubscriptionPlan[] = [
-  {
-    title: "Free",
-    slogan: "Get started for free",
-    price: 0,
-    features: [
-      "Create up to 100 static QR codes",
-      "Basic design customization",
-      "Limited analytics",
-    ],
-    buttonText: "Get started",
-    buttonLink: "#",
-  },
-  {
-    title: "Pro",
-    slogan: "For growing businesses",
-    price: 19,
-    features: [
-      "Create unlimited static QR codes",
-      "Advanced design customization",
-      "Detailed analytics and reporting",
-      "Dynamic QR code creation",
-    ],
-    buttonText: "Upgrade to Pro",
-    buttonLink: "#",
-  },
-];
+export const PricingSection = async () => {
+  const [prices, products] = await Promise.all([
+    getStripePrices(),
+    getStripeProducts(),
+  ]);
 
-export const PricingSection = () => {
+  const basePlan = products.find(
+    (product) => product.name === "DynamicQR Base"
+  );
+  const plusPlan = products.find(
+    (product) => product.name === "DynamicQR Premium"
+  );
+
+  const basePrice = prices.find((price) => price.productId === basePlan?.id);
+  const plusPrice = prices.find((price) => price.productId === plusPlan?.id);
+
+  const subscriptionPlans: SubscriptionPlan[] = [
+    {
+      title: "Base",
+      slogan: "For starters",
+      price: basePrice!.unitAmount!,
+      features: [
+        "Create up to 100 static QR codes",
+        "Basic design customization",
+        "Limited analytics",
+      ],
+      buttonText: "Get started",
+      priceId: basePrice?.id!,
+    },
+    {
+      title: "Pro",
+      slogan: "For growing businesses",
+      price: plusPrice!.unitAmount!,
+      features: [
+        "Create unlimited static QR codes",
+        "Advanced design customization",
+        "Detailed analytics and reporting",
+        "Dynamic QR code creation",
+      ],
+      buttonText: "Upgrade to Pro",
+      priceId: plusPrice?.id!,
+    },
+  ];
+
   return (
     <section
       id="pricing"
@@ -76,7 +97,7 @@ const SubscriptionPlanCard = ({
   price,
   features,
   buttonText,
-  buttonLink,
+  priceId,
 }: SubscriptionPlan) => {
   return (
     <div className="rounded-lg border bg-background p-6 shadow-sm">
@@ -87,7 +108,7 @@ const SubscriptionPlanCard = ({
             <p className="text-muted-foreground">{slogan}</p>
           </div>
           <div className="space-y-2">
-            <p className="text-4xl font-bold">${price}</p>
+            <p className="text-4xl font-bold">${price / 100}</p>
             <p className="text-muted-foreground text-sm">per month</p>
           </div>
           <ul className="space-y-2 text-muted-foreground">
@@ -99,7 +120,7 @@ const SubscriptionPlanCard = ({
             ))}
           </ul>
         </div>
-        <Button className="w-full">{buttonText}</Button>
+        <CheckoutButton priceId={priceId}>{buttonText}</CheckoutButton>
       </div>
     </div>
   );
