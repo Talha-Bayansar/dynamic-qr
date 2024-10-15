@@ -21,7 +21,7 @@ import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { routes } from "@/lib/routes";
 import { toast } from "sonner";
-import { signin } from "../server-actions";
+import { signin } from "../api";
 import { LoadingButton } from "@/components/loading-button";
 
 const formSchema = z.object({

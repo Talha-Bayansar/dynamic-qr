@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAction } from "next-safe-action/hooks";
-import { sendEmailVerificationCode } from "../server-actions";
+import { sendEmailVerificationCode } from "../api";
 import { routes } from "@/lib/routes";
 import { toast } from "sonner";
 import { LoadingButton } from "@/components/loading-button";
