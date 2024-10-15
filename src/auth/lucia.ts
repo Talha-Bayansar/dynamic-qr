@@ -1,5 +1,3 @@
-"use server";
-
 import { eq } from "drizzle-orm";
 import {
   encodeBase32LowerCaseNoPadding,
@@ -8,18 +6,18 @@ import {
 import { sha256 } from "@oslojs/crypto/sha2";
 import { Session, sessionTable, User, userTable } from "@/db/schema";
 import { db } from "@/db";
+import { cookies } from "next/headers";
+import { cache } from "react";
 
-export function generateSessionToken(): string {
+function generateSessionToken(): string {
   const bytes = new Uint8Array(20);
   crypto.getRandomValues(bytes);
   const token = encodeBase32LowerCaseNoPadding(bytes);
   return token;
 }
 
-export async function createSession(
-  token: string,
-  userId: number
-): Promise<Session> {
+export async function createSession(userId: number): Promise<Session> {
+  const token = generateSessionToken();
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session: Session = {
     id: sessionId,
@@ -62,6 +60,52 @@ export async function validateSessionToken(
 export async function invalidateSession(sessionId: string): Promise<void> {
   await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
 }
+
+export function setSessionTokenCookie(token: string): void {
+  cookies().set("session", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+    path: "/",
+  });
+}
+
+export async function deleteSessionTokenCookie(): Promise<void> {
+  cookies().set("session", "", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 0,
+    path: "/",
+  });
+}
+
+export const validateRequest = cache(
+  async (): Promise<
+    { user: User; session: Session } | { user: null; session: null }
+  > => {
+    const sessionId = cookies().get("session")?.value ?? null;
+    if (!sessionId) {
+      return {
+        user: null,
+        session: null,
+      };
+    }
+
+    const result = await validateSessionToken(sessionId);
+    // next.js throws when you attempt to set cookie when rendering page
+    try {
+      if (result.session && result.session.expiresAt > new Date()) {
+        setSessionTokenCookie(result.session.id);
+      }
+      if (!result.session) {
+        deleteSessionTokenCookie();
+      }
+    } catch {}
+    return result;
+  }
+);
 
 export type SessionValidationResult =
   | { session: Session; user: User }
