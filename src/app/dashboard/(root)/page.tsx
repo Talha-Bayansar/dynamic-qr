@@ -1,12 +1,12 @@
-import { Header } from "@/components/layout/header";
-import { Main } from "@/components/layout/main";
+import { GridView } from "@/components/layout/grid-view";
+import { PlanUsage } from "@/features/subscription/plan-usage/containers/plan-usage";
 
-const DashboardPage = () => {
+const DashboardRootPage = () => {
   return (
-    <Main>
-      <Header title="Dashboard" />
-    </Main>
+    <GridView>
+      <PlanUsage />
+    </GridView>
   );
 };
 
-export default DashboardPage;
+export default DashboardRootPage;
