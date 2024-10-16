@@ -4,13 +4,7 @@ import { emailVerificationCodeTable, userTable } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
-import {
-  createSession,
-  deleteSessionTokenCookie,
-  invalidateSession,
-  setSessionTokenCookie,
-  validateRequest,
-} from "@/auth/lucia";
+import { createSession, setSessionTokenCookie } from "@/auth/lucia";
 import { TimeSpan, createDate } from "oslo";
 import { generateRandomString, alphabet } from "oslo/crypto";
 import { z } from "zod";
@@ -154,15 +148,3 @@ export const signin = safeAction
       return createErrorResponse("Something went wrong while signing in.");
     }
   });
-
-export async function signout(): Promise<boolean> {
-  const { session } = await validateRequest();
-  if (!session) {
-    return false;
-  }
-
-  await invalidateSession(session.id);
-
-  deleteSessionTokenCookie();
-  return true;
-}

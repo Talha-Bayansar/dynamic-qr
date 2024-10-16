@@ -1,11 +1,8 @@
 "use server";
 
-import { Button } from "@/components/ui/button";
 import { CheckoutButton } from "@/features/subscription/checkout-subscription/components/checkout-button";
-import { routes } from "@/lib/routes";
 import { getStripePrices, getStripeProducts } from "@/stripe";
 import { CheckIcon } from "lucide-react";
-import Link from "next/link";
 
 type SubscriptionPlan = {
   title: string;
@@ -25,12 +22,10 @@ export const PricingSection = async () => {
   const basePlan = products.find(
     (product) => product.name === "DynamicQR Base"
   );
-  const plusPlan = products.find(
-    (product) => product.name === "DynamicQR Premium"
-  );
+  const proPlan = products.find((product) => product.name === "DynamicQR Pro");
 
   const basePrice = prices.find((price) => price.productId === basePlan?.id);
-  const plusPrice = prices.find((price) => price.productId === plusPlan?.id);
+  const proPrice = prices.find((price) => price.productId === proPlan?.id);
 
   const subscriptionPlans: SubscriptionPlan[] = [
     {
@@ -48,7 +43,7 @@ export const PricingSection = async () => {
     {
       title: "Pro",
       slogan: "For growing businesses",
-      price: plusPrice!.unitAmount!,
+      price: proPrice!.unitAmount!,
       features: [
         "Create unlimited static QR codes",
         "Advanced design customization",
@@ -56,7 +51,7 @@ export const PricingSection = async () => {
         "Dynamic QR code creation",
       ],
       buttonText: "Upgrade to Pro",
-      priceId: plusPrice?.id!,
+      priceId: proPrice?.id!,
     },
   ];
 

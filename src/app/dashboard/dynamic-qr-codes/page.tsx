@@ -1,12 +1,12 @@
 import { Header } from "@/components/layout/header";
 import { Main } from "@/components/layout/main";
 
-const DashboardPage = () => {
+const DynamicQRCodesPage = () => {
   return (
     <Main>
-      <Header title="Dashboard" />
+      <Header title="Dynamic QR Codes" />
     </Main>
   );
 };
 
-export default DashboardPage;
+export default DynamicQRCodesPage;

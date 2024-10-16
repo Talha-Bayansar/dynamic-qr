@@ -28,9 +28,9 @@ export async function createCheckoutSession({ priceId }: { priceId: string }) {
     customer: user.stripeCustomerId || undefined,
     client_reference_id: user.id.toString(),
     allow_promotion_codes: true,
-    subscription_data: {
-      trial_period_days: 14,
-    },
+    // subscription_data: {
+    //   trial_period_days: 14,
+    // },
   });
 
   redirect(session.url!);
@@ -40,7 +40,7 @@ export async function createCustomerPortalSession() {
   const user = await requireAuth();
 
   if (!user.stripeCustomerId || !user.stripeProductId) {
-    redirect(`${routes.root}#pricing`);
+    redirect(routes.pricing.root);
   }
 
   let configuration: Stripe.BillingPortal.Configuration;
@@ -58,8 +58,6 @@ export async function createCustomerPortalSession() {
       product: product.id,
       active: true,
     });
-
-    console.log("prices", prices);
 
     if (prices.data.length === 0) {
       throw new Error("No active prices found for the user's product");
@@ -104,7 +102,7 @@ export async function createCustomerPortalSession() {
 
   return stripe.billingPortal.sessions.create({
     customer: user.stripeCustomerId,
-    return_url: `${process.env.BASE_URL}/dashboard`,
+    return_url: `${process.env.BASE_URL}${routes.dashboard.settings.root}`,
     configuration: configuration.id,
   });
 }
@@ -155,7 +153,7 @@ export async function getStripePrices() {
     unitAmount: price.unit_amount,
     currency: price.currency,
     interval: price.recurring?.interval,
-    trialPeriodDays: price.recurring?.trial_period_days,
+    // trialPeriodDays: price.recurring?.trial_period_days,
   }));
 }
 

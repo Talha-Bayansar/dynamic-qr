@@ -21,5 +21,5 @@ export const checkoutAction = safeAction
 
 export const customerPortalAction = safeAction.action(async () => {
   const portalSession = await createCustomerPortalSession();
-  redirect(portalSession.url ?? `${routes.root}#pricing`);
+  redirect(portalSession.url);
 });
