@@ -1,5 +1,4 @@
 import { pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
 
 export const userTable = pgTable("user", {
   id: serial("id").primaryKey(),
@@ -32,6 +31,15 @@ export const emailVerificationCodeTable = pgTable("email_verification_code", {
     withTimezone: true,
     mode: "date",
   }).notNull(),
+});
+
+export const qrCodeTable = pgTable("qr_code", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  userId: serial("user_id")
+    .notNull()
+    .references(() => userTable.id, { onDelete: "cascade" }),
+  value: text("value").notNull(),
 });
 
 export type User = typeof userTable.$inferSelect;

@@ -1,12 +1,7 @@
-import { Header } from "@/components/layout/header";
-import { Main } from "@/components/layout/main";
+import { QRCodesOverview } from "@/features/qr-code/qr-codes-overview/components/qr-codes-overview";
 
 const DynamicQRCodesPage = () => {
-  return (
-    <Main>
-      <Header title="Dynamic QR Codes" />
-    </Main>
-  );
+  return <QRCodesOverview />;
 };
 
 export default DynamicQRCodesPage;
