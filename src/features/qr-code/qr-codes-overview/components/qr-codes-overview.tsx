@@ -5,7 +5,6 @@ import { getMyQRCodes } from "../api";
 import { GridView } from "@/components/layout/grid-view";
 import { generateArray, isArrayEmpty } from "@/lib/utils";
 import { EmptyState } from "@/components/empty-state";
-import { AddButton } from "@/components/add-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Card,
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { QrCode } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
+import { CreateQRCodeButton } from "../../create-qr-code/components/create-qr-code-button";
 
 export const QRCodesOverview = async () => {
   const response = await getMyQRCodes();
@@ -27,7 +27,7 @@ export const QRCodesOverview = async () => {
       <EmptyState
         title="You didn't create any QR codes yet"
         description="Try creating your first dynamic QR code and start tracking."
-        action={<AddButton>Create QR Code</AddButton>}
+        action={<CreateQRCodeButton />}
       />
     );
 
@@ -49,6 +49,7 @@ export const QRCodesOverview = async () => {
           </CardContent>
         </Card>
       ))}
+      <CreateQRCodeButton />
     </GridView>
   );
 };

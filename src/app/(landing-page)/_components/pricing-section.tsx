@@ -1,10 +1,11 @@
 "use server";
 
 import { CheckoutButton } from "@/features/subscription/checkout-subscription/components/checkout-button";
+import { SubscriptionPlan } from "@/features/subscription/models";
 import { getStripePrices, getStripeProducts } from "@/stripe";
 import { CheckIcon } from "lucide-react";
 
-type SubscriptionPlan = {
+type Subscription = {
   title: string;
   slogan: string;
   price: number;
@@ -20,16 +21,18 @@ export const PricingSection = async () => {
   ]);
 
   const basePlan = products.find(
-    (product) => product.name === "DynamicQR Base"
+    (product) => product.name === SubscriptionPlan.BASIC
   );
-  const proPlan = products.find((product) => product.name === "DynamicQR Pro");
+  const proPlan = products.find(
+    (product) => product.name === SubscriptionPlan.PRO
+  );
 
   const basePrice = prices.find((price) => price.productId === basePlan?.id);
   const proPrice = prices.find((price) => price.productId === proPlan?.id);
 
-  const subscriptionPlans: SubscriptionPlan[] = [
+  const subscriptionPlans: Subscription[] = [
     {
-      title: "Base",
+      title: SubscriptionPlan.BASIC,
       slogan: "For starters",
       price: basePrice!.unitAmount!,
       features: [
@@ -41,7 +44,7 @@ export const PricingSection = async () => {
       priceId: basePrice?.id!,
     },
     {
-      title: "Pro",
+      title: SubscriptionPlan.PRO,
       slogan: "For growing businesses",
       price: proPrice!.unitAmount!,
       features: [
@@ -93,13 +96,13 @@ const SubscriptionPlanCard = ({
   features,
   buttonText,
   priceId,
-}: SubscriptionPlan) => {
+}: Subscription) => {
   return (
     <div className="rounded-lg border bg-background p-6 shadow-sm">
       <div className="flex flex-col gap-4 justify-between h-full">
         <div>
           <div className="space-y-1">
-            <h3 className="text-2xl font-bold">{title}</h3>
+            <h3 className="text-2xl font-bold capitalize">{title}</h3>
             <p className="text-muted-foreground">{slogan}</p>
           </div>
           <div className="space-y-2">

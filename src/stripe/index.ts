@@ -73,7 +73,7 @@ export async function createCustomerPortalSession() {
         },
         subscription_update: {
           enabled: true,
-          default_allowed_updates: ["price", "quantity", "promotion_code"],
+          default_allowed_updates: ["price", "promotion_code"],
           proration_behavior: "create_prorations",
           products: [
             {
