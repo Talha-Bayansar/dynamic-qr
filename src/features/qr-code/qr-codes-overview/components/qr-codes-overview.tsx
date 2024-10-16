@@ -16,6 +16,8 @@ import {
 import { QrCode } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { CreateQRCodeButton } from "../../create-qr-code/components/create-qr-code-button";
+import { getQRCodeData } from "../../lib/utils";
+import { QRType } from "../../models";
 
 export const QRCodesOverview = async () => {
   const response = await getMyQRCodes();
@@ -45,7 +47,10 @@ export const QRCodesOverview = async () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <QRCodeSVG className="w-full" value={code.value} />
+            <QRCodeSVG
+              className="w-full"
+              value={getQRCodeData(code.value, code.type as QRType)}
+            />
           </CardContent>
         </Card>
       ))}

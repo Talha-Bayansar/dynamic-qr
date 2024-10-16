@@ -15,6 +15,27 @@
       "when": 1729072684942,
       "tag": "0001_goofy_the_liberteens",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729111035628,
+      "tag": "0002_curvy_cammi",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1729111060330,
+      "tag": "0003_fuzzy_random",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1729111117591,
+      "tag": "0004_pink_triathlon",
+      "breakpoints": true
     }
   ]
 }

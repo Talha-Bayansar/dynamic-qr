@@ -10,15 +10,17 @@ import { createErrorResponse, createSuccessResponse } from "@/lib/utils";
 import { count, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { QRType } from "../models";
 
 const createQRCodeSchema = z.object({
   name: z.string().min(1).max(255),
   value: z.string().min(1).max(255),
+  type: z.nativeEnum(QRType),
 });
 
 export const createQRCode = safeAction
   .schema(createQRCodeSchema)
-  .action(async ({ parsedInput: { name, value } }) => {
+  .action(async ({ parsedInput: { name, value, type } }) => {
     try {
       const user = await requireAuth();
 
@@ -54,10 +56,12 @@ export const createQRCode = safeAction
       await db.insert(qrCodeTable).values({
         name,
         value,
+        type,
         userId: user.id,
       });
 
       revalidatePath(routes.dashboard.dynamicQRCodes.root);
+      revalidatePath(routes.dashboard.root);
 
       return createSuccessResponse();
     } catch (error) {

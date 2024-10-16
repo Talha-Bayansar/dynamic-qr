@@ -1,0 +1,1 @@
+ALTER TABLE "qr_code" ADD COLUMN "type" text NOT NULL;

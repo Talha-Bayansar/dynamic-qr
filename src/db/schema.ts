@@ -40,6 +40,9 @@ export const qrCodeTable = pgTable("qr_code", {
     .notNull()
     .references(() => userTable.id, { onDelete: "cascade" }),
   value: text("value").notNull(),
+  type: text("type", {
+    enum: ["url", "text", "contact", "message", "email"],
+  }).notNull(),
 });
 
 export type User = typeof userTable.$inferSelect;
