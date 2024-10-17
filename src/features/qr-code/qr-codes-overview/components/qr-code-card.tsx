@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/card";
 import { QRCode } from "@/db/schema";
 import { QRCodeSVG } from "qrcode.react";
-import { getQRCodeData } from "../../lib/utils";
-import { QRType } from "../../models";
 import { DeleteQRCodeButton } from "../../delete-qr-code/components/delete-qr-code-button";
 import { EditQRCodeButton } from "../../update-qr-code/components/edit-qr-code-button";
 import { DownloadQRCodeButton } from "../../components/download-qr-code-button";
@@ -36,7 +34,7 @@ export const QRCodeCard = ({ qrCode }: Props) => {
         <QRCodeSVG
           ref={qrCodeRef}
           className="w-full"
-          value={getQRCodeData(qrCode.value, qrCode.type as QRType)}
+          value={`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/qr-code/${qrCode.code}`}
         />
       </CardContent>
       <CardFooter className="justify-end">

@@ -36,6 +36,7 @@ export const emailVerificationCodeTable = pgTable("email_verification_code", {
 export const qrCodeTable = pgTable("qr_code", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  code: serial("code").notNull(),
   userId: serial("user_id")
     .notNull()
     .references(() => userTable.id, { onDelete: "cascade" }),
