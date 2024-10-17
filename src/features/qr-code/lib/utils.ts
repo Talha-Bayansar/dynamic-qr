@@ -6,7 +6,7 @@ export const getQRCodeData = (value: string, type: QRType) => {
       return value;
     case QRType.TEXT:
       return value;
-    case QRType.CONTACT:
+    case QRType.VCARD:
       const [name, phone, email] = value.split("\n");
       return `BEGIN:VCARD\nVERSION:3.0\nN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
     case QRType.MESSAGE:

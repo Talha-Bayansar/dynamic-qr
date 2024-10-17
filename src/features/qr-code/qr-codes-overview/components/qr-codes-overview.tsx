@@ -6,18 +6,10 @@ import { GridView } from "@/components/layout/grid-view";
 import { generateArray, isArrayEmpty } from "@/lib/utils";
 import { EmptyState } from "@/components/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { QrCode } from "lucide-react";
-import { QRCodeSVG } from "qrcode.react";
 import { CreateQRCodeButton } from "../../create-qr-code/components/create-qr-code-button";
-import { getQRCodeData } from "../../lib/utils";
-import { QRType } from "../../models";
+import { QRCodeCard } from "./qr-code-card";
 
 export const QRCodesOverview = async () => {
   const response = await getMyQRCodes();
@@ -35,24 +27,8 @@ export const QRCodesOverview = async () => {
 
   return (
     <GridView>
-      {response.data!.map((code) => (
-        <Card key={code.name}>
-          <CardHeader>
-            <CardTitle>{code.name}</CardTitle>
-            <CardDescription>
-              QR Code value is:{" "}
-              <a className="underline" href={code.value} target="_blank">
-                {code.value}
-              </a>
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <QRCodeSVG
-              className="w-full"
-              value={getQRCodeData(code.value, code.type as QRType)}
-            />
-          </CardContent>
-        </Card>
+      {response.data!.map((qrCode) => (
+        <QRCodeCard key={qrCode.name} qrCode={qrCode} />
       ))}
       <CreateQRCodeButton />
     </GridView>

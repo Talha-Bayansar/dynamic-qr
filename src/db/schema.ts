@@ -41,7 +41,7 @@ export const qrCodeTable = pgTable("qr_code", {
     .references(() => userTable.id, { onDelete: "cascade" }),
   value: text("value").notNull(),
   type: text("type", {
-    enum: ["url", "text", "contact", "message", "email"],
+    enum: ["url", "text", "vcard", "message", "email"],
   }).notNull(),
 });
 
@@ -53,3 +53,5 @@ export type EmailVerificationCode =
   typeof emailVerificationCodeTable.$inferSelect;
 export type NewEmailVerificationCode =
   typeof emailVerificationCodeTable.$inferInsert;
+export type QRCode = typeof qrCodeTable.$inferSelect;
+export type NewQRCode = typeof qrCodeTable.$inferInsert;

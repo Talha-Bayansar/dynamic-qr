@@ -1,7 +1,7 @@
 export enum QRType {
   URL = "url",
   TEXT = "text",
-  CONTACT = "contact",
+  VCARD = "vcard",
   MESSAGE = "message",
   EMAIL = "email",
 }
