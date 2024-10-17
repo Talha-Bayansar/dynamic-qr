@@ -4,11 +4,14 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
+  CardFooter,
 } from "@/components/ui/card";
 import { QRCode } from "@/db/schema";
 import { QRCodeSVG } from "qrcode.react";
 import { getQRCodeData } from "../../lib/utils";
 import { QRType } from "../../models";
+import { DeleteQRCodeButton } from "../../delete-qr-code/components/delete-qr-code-button";
+import { EditQRCodeButton } from "../../update-qr-code/components/edit-qr-code-button";
 
 type Props = {
   qrCode: QRCode;
@@ -29,6 +32,10 @@ export const QRCodeCard = ({ qrCode }: Props) => {
           value={getQRCodeData(qrCode.value, qrCode.type as QRType)}
         />
       </CardContent>
+      <CardFooter>
+        <EditQRCodeButton qrCode={qrCode} />
+        <DeleteQRCodeButton qrCode={qrCode} />
+      </CardFooter>
     </Card>
   );
 };
