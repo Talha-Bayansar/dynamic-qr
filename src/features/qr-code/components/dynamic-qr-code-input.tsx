@@ -44,9 +44,9 @@ export function DynamicQRCodeInput({
       case QRType.VCARD:
         return <VCardInput value={qrData} onChange={handleInputChange} />;
       case QRType.MESSAGE:
-        return <MessageInput value={value} onChange={handleInputChange} />;
+        return <MessageInput value={qrData} onChange={handleInputChange} />;
       case QRType.EMAIL:
-        return <EmailInput value={value} onChange={handleInputChange} />;
+        return <EmailInput value={qrData} onChange={handleInputChange} />;
       default:
         return null;
     }

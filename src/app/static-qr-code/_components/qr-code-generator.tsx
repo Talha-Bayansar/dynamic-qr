@@ -9,222 +9,46 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { QRCodeSVG } from "qrcode.react";
-import { Button } from "@/components/ui/button";
 import { Download, QrCode } from "lucide-react";
+import { DownloadQRCodeButton } from "@/features/qr-code/components/download-qr-code-button";
+import { getQRCodeData } from "@/features/qr-code/lib/utils";
+import { QRType } from "@/features/qr-code/models";
+import { EmailInput } from "@/features/qr-code/components/email-input";
+import { MessageInput } from "@/features/qr-code/components/message-input";
+import { TextInput } from "@/features/qr-code/components/text-input";
+import { UrlInput } from "@/features/qr-code/components/url-input";
+import { VCardInput } from "@/features/qr-code/components/vcard-input";
 
 export function QrCodeGenerator() {
   const [qrData, setQrData] = useState("");
-  const [activeTab, setActiveTab] = useState("url");
+  const [activeTab, setActiveTab] = useState(QRType.URL);
   const qrcodeRef = useRef<SVGSVGElement>(null);
 
   const handleInputChange = (value: string) => {
     setQrData(value);
   };
 
-  const handleTabChange = (value: string) => {
+  const handleTabChange = (value: QRType) => {
     setActiveTab(value);
     setQrData("");
   };
 
   const renderInputs = () => {
     switch (activeTab) {
-      case "url":
-        return (
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="url">URL</Label>
-            <Input
-              id="url"
-              placeholder="https://example.com"
-              value={qrData}
-              onChange={(e) => handleInputChange(e.target.value)}
-            />
-          </div>
-        );
-      case "text":
-        return (
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="text">Text</Label>
-            <Textarea
-              id="text"
-              placeholder="Enter your text here"
-              value={qrData}
-              onChange={(e) => handleInputChange(e.target.value)}
-            />
-          </div>
-        );
-      case "contact":
-        return (
-          <div className="flex gap-4 flex-col">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                placeholder="John Doe"
-                value={qrData.split("\n")[0] || ""}
-                onChange={(e) =>
-                  handleInputChange(
-                    `${e.target.value}\n${qrData.split("\n")[1] || ""}\n${
-                      qrData.split("\n")[2] || ""
-                    }`
-                  )
-                }
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="phone">Phone</Label>
-              <Input
-                id="phone"
-                placeholder="+1234567890"
-                value={qrData.split("\n")[1] || ""}
-                onChange={(e) =>
-                  handleInputChange(
-                    `${qrData.split("\n")[0] || ""}\n${e.target.value}\n${
-                      qrData.split("\n")[2] || ""
-                    }`
-                  )
-                }
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                placeholder="johndoe@example.com"
-                value={qrData.split("\n")[2] || ""}
-                onChange={(e) =>
-                  handleInputChange(
-                    `${qrData.split("\n")[0] || ""}\n${
-                      qrData.split("\n")[1] || ""
-                    }\n${e.target.value}`
-                  )
-                }
-              />
-            </div>
-          </div>
-        );
-      case "message":
-        return (
-          <div className="flex gap-4 flex-col">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="phone">Phone Number</Label>
-              <Input
-                id="phone"
-                placeholder="+1234567890"
-                value={qrData.split("\n")[0] || ""}
-                onChange={(e) =>
-                  handleInputChange(
-                    `${e.target.value}\n${qrData.split("\n")[1] || ""}`
-                  )
-                }
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="message">Message</Label>
-              <Textarea
-                id="message"
-                placeholder="Enter your message here"
-                value={qrData.split("\n")[1] || ""}
-                onChange={(e) =>
-                  handleInputChange(
-                    `${qrData.split("\n")[0] || ""}\n${e.target.value}`
-                  )
-                }
-              />
-            </div>
-          </div>
-        );
-      case "email":
-        return (
-          <div className="flex gap-4 flex-col">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                placeholder="johndoe@example.com"
-                value={qrData.split("\n")[0] || ""}
-                onChange={(e) =>
-                  handleInputChange(
-                    `${e.target.value}\n${qrData.split("\n")[1] || ""}\n${
-                      qrData.split("\n")[2] || ""
-                    }`
-                  )
-                }
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="subject">Subject</Label>
-              <Input
-                id="subject"
-                placeholder="Email subject"
-                value={qrData.split("\n")[1] || ""}
-                onChange={(e) =>
-                  handleInputChange(
-                    `${qrData.split("\n")[0] || ""}\n${e.target.value}\n${
-                      qrData.split("\n")[2] || ""
-                    }`
-                  )
-                }
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="body">Body</Label>
-              <Textarea
-                id="body"
-                placeholder="Email body"
-                value={qrData.split("\n")[2] || ""}
-                onChange={(e) =>
-                  handleInputChange(
-                    `${qrData.split("\n")[0] || ""}\n${
-                      qrData.split("\n")[1] || ""
-                    }\n${e.target.value}`
-                  )
-                }
-              />
-            </div>
-          </div>
-        );
+      case QRType.URL:
+        return <UrlInput value={qrData} onChange={handleInputChange} />;
+      case QRType.TEXT:
+        return <TextInput value={qrData} onChange={handleInputChange} />;
+      case QRType.VCARD:
+        return <VCardInput value={qrData} onChange={handleInputChange} />;
+      case QRType.MESSAGE:
+        return <MessageInput value={qrData} onChange={handleInputChange} />;
+      case QRType.EMAIL:
+        return <EmailInput value={qrData} onChange={handleInputChange} />;
       default:
         return null;
     }
-  };
-
-  const getQRCodeData = () => {
-    switch (activeTab) {
-      case "url":
-        return qrData;
-      case "text":
-        return qrData;
-      case "contact":
-        const [name, phone, email] = qrData.split("\n");
-        return `BEGIN:VCARD\nVERSION:3.0\nN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
-      case "message":
-        const [messagePhone, message] = qrData.split("\n");
-        return `SMSTO:${messagePhone}:${message}`;
-      case "email":
-        const [emailAddress, subject, body] = qrData.split("\n");
-        return `mailto:${emailAddress}?subject=${encodeURIComponent(
-          subject
-        )}&body=${encodeURIComponent(body)}`;
-      default:
-        return "";
-    }
-  };
-
-  const downloadQRCode = () => {
-    const svg = qrcodeRef.current!;
-    const svgXML = new XMLSerializer().serializeToString(svg);
-    const dataUrl = "data:image/svg," + encodeURIComponent(svgXML);
-
-    const anchor = document.createElement("a");
-    anchor.href = dataUrl;
-    anchor.download = `qr-code.svg`;
-    document.body.appendChild(anchor);
-    anchor.click();
-    document.body.removeChild(anchor);
   };
 
   return (
@@ -236,13 +60,18 @@ export function QrCodeGenerator() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Tabs value={activeTab} onValueChange={handleTabChange}>
+        <Tabs
+          value={activeTab}
+          onValueChange={(v) => handleTabChange(v as QRType)}
+        >
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="url">URL</TabsTrigger>
-            <TabsTrigger value="text">Text</TabsTrigger>
-            <TabsTrigger value="contact">Contact</TabsTrigger>
-            <TabsTrigger value="message">Message</TabsTrigger>
-            <TabsTrigger value="email">Email</TabsTrigger>
+            {Object.values(QRType).map((qrType) => (
+              <TabsTrigger className="capitalize" key={qrType} value={qrType}>
+                {["url", "vcard"].includes(qrType)
+                  ? qrType.toUpperCase()
+                  : qrType}
+              </TabsTrigger>
+            ))}
           </TabsList>
           <TabsContent value={activeTab}>
             <div className="flex flex-col gap-4 mt-4">
@@ -251,7 +80,7 @@ export function QrCodeGenerator() {
                 {qrData ? (
                   <QRCodeSVG
                     ref={qrcodeRef}
-                    value={getQRCodeData()}
+                    value={getQRCodeData(qrData, activeTab)}
                     size={200}
                     level="H"
                   />
@@ -261,13 +90,13 @@ export function QrCodeGenerator() {
                   </div>
                 )}
               </div>
-              <Button
-                disabled={!qrData}
+              <DownloadQRCodeButton
                 className="flex gap-2"
-                onClick={downloadQRCode}
+                disabled={!qrData}
+                qrCodeRef={qrcodeRef}
               >
                 <Download /> Download
-              </Button>
+              </DownloadQRCodeButton>
             </div>
           </TabsContent>
         </Tabs>
