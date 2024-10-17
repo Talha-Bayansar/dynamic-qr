@@ -34,7 +34,7 @@ export const QRCodeCard = ({ qrCode }: Props) => {
         <QRCodeSVG
           ref={qrCodeRef}
           className="w-full"
-          value={`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/qr-code/${qrCode.code}`}
+          value={`${process.env.NEXT_PUBLIC_BASE_URL}/api/qr-code/${qrCode.code}`}
         />
       </CardContent>
       <CardFooter className="justify-end">
