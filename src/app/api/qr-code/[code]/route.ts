@@ -1,8 +1,8 @@
 import { db } from "@/db";
 import { qrCodeTable } from "@/db/schema";
-import { getQRCodeData } from "@/features/qr-code/lib/utils";
-import { QRType } from "@/features/qr-code/models";
+import { routes } from "@/lib/routes";
 import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
 
 export async function GET(
   _: Request,
@@ -16,8 +16,6 @@ export async function GET(
     .where(eq(qrCodeTable.code, code));
 
   if (response[0]) {
-    return new Response(
-      getQRCodeData(response[0].value, response[0].type as QRType)
-    );
+    redirect(routes.root);
   }
 }
