@@ -15,7 +15,7 @@ type Props = {
   };
 };
 
-export const CodePage = async ({ params: { code } }: Props) => {
+const CodePage = async ({ params: { code } }: Props) => {
   const codeNumber = parseInt(code);
   let qrCode: QRCode;
 
