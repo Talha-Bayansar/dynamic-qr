@@ -1,4 +1,4 @@
-import { QRCodesOverviewSkeleton } from "@/features/qr-code/qr-codes-overview/components/qr-codes-overview";
+import { QRCodesOverviewSkeleton } from "@/features/qr-code/overview/components/qr-codes-overview";
 
 const DynamicQRCodesLoading = () => {
   return <QRCodesOverviewSkeleton />;

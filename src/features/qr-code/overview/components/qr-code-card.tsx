@@ -15,6 +15,7 @@ import { EditQRCodeButton } from "../../update-qr-code/components/edit-qr-code-b
 import { DownloadQRCodeButton } from "../../components/download-qr-code-button";
 import { useRef } from "react";
 import { Download } from "lucide-react";
+import { routes } from "@/lib/routes";
 
 type Props = {
   qrCode: QRCode;
@@ -34,7 +35,9 @@ export const QRCodeCard = ({ qrCode }: Props) => {
         <QRCodeSVG
           ref={qrCodeRef}
           className="w-full"
-          value={`${process.env.NEXT_PUBLIC_BASE_URL}/api/qr-code/${qrCode.code}`}
+          value={`${process.env.NEXT_PUBLIC_BASE_URL}${
+            routes.api.qrCode.code(qrCode.code).root
+          }`}
         />
       </CardContent>
       <CardFooter className="justify-end">
