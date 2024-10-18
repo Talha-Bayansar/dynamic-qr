@@ -43,6 +43,13 @@
       "when": 1729194275264,
       "tag": "0005_certain_angel",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1729247369239,
+      "tag": "0006_loving_leopardon",
+      "breakpoints": true
     }
   ]
 }
