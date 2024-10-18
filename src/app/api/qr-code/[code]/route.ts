@@ -3,15 +3,17 @@ import { qrCodeTable } from "@/db/schema";
 import { IPMetaData } from "@/features/ip-meta-data/models";
 import { routes } from "@/lib/routes";
 import { eq } from "drizzle-orm";
-import { NextApiRequest } from "next";
 import { redirect } from "next/navigation";
-import requestIp from "request-ip";
+import { NextRequest } from "next/server";
+import requestIp, { RequestHeaders } from "request-ip";
 
 export async function GET(
-  req: NextApiRequest,
+  req: NextRequest,
   { params }: { params: { code: number } }
 ) {
-  const clientIp = requestIp.getClientIp(req);
+  const clientIp = requestIp.getClientIp(
+    req as NextRequest & { headers: RequestHeaders }
+  );
   console.log("clientIp", clientIp);
   if (clientIp) {
     const response = await fetch(ipApi(clientIp));
