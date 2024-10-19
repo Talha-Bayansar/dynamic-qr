@@ -26,6 +26,9 @@ export const routes = {
     root: "/dashboard",
     dynamicQRCodes: {
       root: "/dashboard/dynamic-qr-codes",
+      id: (id: number | string) => ({
+        root: `/dashboard/dynamic-qr-codes/${id}`,
+      }),
     },
     settings: {
       root: "/dashboard/settings",

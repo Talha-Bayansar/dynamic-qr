@@ -16,6 +16,7 @@ import { DownloadQRCodeButton } from "../../components/download-qr-code-button";
 import { useRef } from "react";
 import { Download } from "lucide-react";
 import { routes } from "@/lib/routes";
+import Link from "next/link";
 
 type Props = {
   qrCode: QRCode;
@@ -32,13 +33,15 @@ export const QRCodeCard = ({ qrCode }: Props) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <QRCodeSVG
-          ref={qrCodeRef}
-          className="w-full"
-          value={`${process.env.NEXT_PUBLIC_BASE_URL}${
-            routes.api.qrCode.code(qrCode.code).root
-          }`}
-        />
+        <Link href={routes.dashboard.dynamicQRCodes.id(qrCode.id).root}>
+          <QRCodeSVG
+            ref={qrCodeRef}
+            className="w-full hover:opacity-75"
+            value={`${process.env.NEXT_PUBLIC_BASE_URL}${
+              routes.api.qrCode.code(qrCode.code).root
+            }`}
+          />
+        </Link>
       </CardContent>
       <CardFooter className="justify-end">
         <DownloadQRCodeButton
