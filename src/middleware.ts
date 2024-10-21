@@ -41,15 +41,16 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const { nextUrl: url, geo } = request;
+  const { geo } = request;
+  const headers = new Headers(request.headers);
 
   console.log("middleware geo", geo);
 
-  url.searchParams.set("country", geo?.country ?? "");
-  url.searchParams.set("city", geo?.city ?? "");
-  url.searchParams.set("region", geo?.region ?? "");
-  url.searchParams.set("latitude", geo?.latitude ?? "");
-  url.searchParams.set("longitude", geo?.longitude ?? "");
+  headers.set("country", geo?.country ?? "");
+  headers.set("city", geo?.city ?? "");
+  headers.set("region", geo?.region ?? "");
+  headers.set("latitude", geo?.latitude ?? "");
+  headers.set("longitude", geo?.longitude ?? "");
 
-  return NextResponse.rewrite(url);
+  return NextResponse.next({ headers: headers });
 }

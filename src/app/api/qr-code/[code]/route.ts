@@ -17,11 +17,11 @@ export async function GET(
   console.log("api route next url", req.nextUrl);
   console.log("api route search params", req.nextUrl.searchParams);
 
-  const country = req.nextUrl.searchParams.get("country");
-  const city = req.nextUrl.searchParams.get("city");
-  const region = req.nextUrl.searchParams.get("region");
-  const latitude = req.nextUrl.searchParams.get("latitude");
-  const longitude = req.nextUrl.searchParams.get("longitude");
+  const country = req.headers.get("country");
+  const city = req.headers.get("city");
+  const region = req.headers.get("region");
+  const latitude = req.headers.get("latitude");
+  const longitude = req.headers.get("longitude");
 
   const data = {
     ip: ip,
