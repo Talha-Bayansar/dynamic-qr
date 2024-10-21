@@ -8,10 +8,7 @@ import {
   updateUserSubscription,
 } from "@/features/auth/api";
 import { routes } from "@/lib/routes";
-
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-09-30.acacia",
-});
+import { stripe } from "./stripe";
 
 export async function createCheckoutSession({ priceId }: { priceId: string }) {
   const user = await requireAuth();
