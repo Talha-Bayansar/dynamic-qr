@@ -3,17 +3,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
-  console.log("request.ip", request.ip);
-  console.log("request.geo", request.geo);
-  console.log(
-    "request.headers.get('x-real-ip')",
-    request.headers.get("x-real-ip")
-  );
-  console.log(
-    "request.headers.get('x-forwarded-for')",
-    request.headers.get("x-forwarded-for")
-  );
-
   if (request.method === "GET") {
     const response = NextResponse.next();
     const token = request.cookies.get("session")?.value ?? null;
@@ -51,5 +40,14 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       status: 403,
     });
   }
-  return NextResponse.next();
+
+  const { nextUrl: url, geo } = request;
+
+  url.searchParams.set("country", geo?.country ?? "");
+  url.searchParams.set("city", geo?.city ?? "");
+  url.searchParams.set("region", geo?.region ?? "");
+  url.searchParams.set("latitude", geo?.latitude ?? "");
+  url.searchParams.set("longitude", geo?.longitude ?? "");
+
+  return NextResponse.rewrite(url);
 }

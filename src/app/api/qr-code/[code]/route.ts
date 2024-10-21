@@ -5,32 +5,29 @@ import { eq } from "drizzle-orm";
 import { notFound, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
-export const dynamic = "force-dynamic";
-export const runtime = "edge";
-
 export async function GET(
   req: NextRequest,
-  { params }: { params: { code: number } }
+  {
+    params,
+  }: {
+    params: { code: number };
+  }
 ) {
-  console.log("req.ip", req.ip);
-  console.log("req.geo", req.geo);
-  console.log("req.headers.get('x-real-ip')", req.headers.get("x-real-ip"));
-  console.log(
-    "req.headers.get('x-forwarded-for')",
-    req.headers.get("x-forwarded-for")
-  );
+  const ip = req.headers.get("x-real-ip") ?? req.headers.get("x-forwarded-for");
+  const country = req.nextUrl.searchParams.get("country");
+  const city = req.nextUrl.searchParams.get("city");
+  const region = req.nextUrl.searchParams.get("region");
+  const latitude = req.nextUrl.searchParams.get("latitude");
+  const longitude = req.nextUrl.searchParams.get("longitude");
 
   const data = {
-    ip: req.ip,
-    city: req.geo?.city,
-    country: req.geo?.country,
-    region: req.geo?.region,
+    ip: ip,
+    city: city,
+    country: country,
+    region: region,
     coordinates:
-      req.geo?.latitude && req.geo?.longitude
-        ? ([parseFloat(req.geo.latitude), parseFloat(req.geo.longitude)] as [
-            number,
-            number
-          ])
+      latitude && longitude
+        ? ([parseFloat(latitude), parseFloat(longitude)] as [number, number])
         : undefined,
   };
 
