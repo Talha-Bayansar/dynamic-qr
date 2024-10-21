@@ -7,7 +7,6 @@ import {
 } from "../../stripe";
 import { z } from "zod";
 import { safeAction } from "@/lib/safe-action";
-import { routes } from "@/lib/routes";
 
 const checkoutSchema = z.object({
   priceId: z.string().min(1),

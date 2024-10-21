@@ -1,3 +1,5 @@
+"use server";
+
 import Stripe from "stripe";
 import { redirect } from "next/navigation";
 import {
@@ -102,7 +104,7 @@ export async function createCustomerPortalSession() {
 
   return stripe.billingPortal.sessions.create({
     customer: user.stripeCustomerId,
-    return_url: `${process.env.BASE_URL}${routes.dashboard.settings.root}`,
+    return_url: `${process.env.VERCEL_URL}${routes.dashboard.settings.root}`,
     configuration: configuration.id,
   });
 }
