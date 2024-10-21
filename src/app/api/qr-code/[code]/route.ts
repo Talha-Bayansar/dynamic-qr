@@ -21,9 +21,6 @@ export async function GET(
   const latitude = req.headers.get("latitude");
   const longitude = req.headers.get("longitude");
 
-  console.log("headers", req.headers);
-  console.log("city", city);
-
   const data = {
     ip: ip,
     city: city,

@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 
 import type { NextRequest } from "next/server";
+import { routes } from "./lib/routes";
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   const { geo } = request;
-  console.log("middleware geo", geo);
-  if (request.nextUrl.pathname.startsWith("/api/qr-code/")) {
-    console.log("Middleware for api route");
+  if (request.nextUrl.pathname.startsWith(routes.api.qrCode.root)) {
     const headers = new Headers(request.headers);
 
     headers.set("country", geo?.country ?? "");
