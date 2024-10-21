@@ -60,15 +60,13 @@ export const VCardPlus = ({ qrCode }: Props) => {
 
   const addContact = () => {
     const vCardData = generateVCard();
-    const blob = new Blob([vCardData], { type: "text/vcard" });
-    const url = window.URL.createObjectURL(blob);
+    const vCardUrl = `data:text/vcard;charset=utf-8,${encodeURIComponent(
+      vCardData
+    )}`;
     const a = document.createElement("a");
-    a.style.display = "none";
-    a.href = url;
+    a.href = vCardUrl;
     a.download = `${data.name}.vcf`;
-    document.body.appendChild(a);
     a.click();
-    window.URL.revokeObjectURL(url);
   };
 
   return (
