@@ -14,6 +14,9 @@ export async function GET(
   }
 ) {
   const ip = req.headers.get("x-real-ip") ?? req.headers.get("x-forwarded-for");
+  console.log("api route next url", req.nextUrl);
+  console.log("api route search params", req.nextUrl.searchParams);
+
   const country = req.nextUrl.searchParams.get("country");
   const city = req.nextUrl.searchParams.get("city");
   const region = req.nextUrl.searchParams.get("region");

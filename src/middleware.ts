@@ -43,6 +43,8 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 
   const { nextUrl: url, geo } = request;
 
+  console.log("middleware geo", geo);
+
   url.searchParams.set("country", geo?.country ?? "");
   url.searchParams.set("city", geo?.city ?? "");
   url.searchParams.set("region", geo?.region ?? "");
