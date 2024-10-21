@@ -3,6 +3,17 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
+  console.log("request.ip", request.ip);
+  console.log("request.geo", request.geo);
+  console.log(
+    "request.headers.get('x-real-ip')",
+    request.headers.get("x-real-ip")
+  );
+  console.log(
+    "request.headers.get('x-forwarded-for')",
+    request.headers.get("x-forwarded-for")
+  );
+
   if (request.method === "GET") {
     const response = NextResponse.next();
     const token = request.cookies.get("session")?.value ?? null;

@@ -9,6 +9,14 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { code: number } }
 ) {
+  console.log("req.ip", req.ip);
+  console.log("req.geo", req.geo);
+  console.log("req.headers.get('x-real-ip')", req.headers.get("x-real-ip"));
+  console.log(
+    "req.headers.get('x-forwarded-for')",
+    req.headers.get("x-forwarded-for")
+  );
+
   const data = {
     ip: req.ip,
     city: req.geo?.city,
