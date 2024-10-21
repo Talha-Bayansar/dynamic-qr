@@ -1,11 +1,9 @@
 "use server";
 
-import { Header } from "@/components/layout/header";
-import { Main } from "@/components/layout/main";
 import { PageContainer } from "@/components/layout/page-container";
-import { View } from "@/components/layout/view";
 import { db } from "@/db";
 import { QRCode, qrCodeTable } from "@/db/schema";
+import { DynamicQRCode } from "@/features/qr-code/dynamic-qr-codes/containers/dynamic-qr-code";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
@@ -33,10 +31,7 @@ const CodePage = async ({ params: { code } }: Props) => {
 
   return (
     <PageContainer>
-      <Main>
-        <Header title="Dynamic QR Code" />
-        <View>{qrCode.value}</View>
-      </Main>
+      <DynamicQRCode qrCode={qrCode} />
     </PageContainer>
   );
 };

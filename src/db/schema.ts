@@ -1,4 +1,5 @@
 import {
+  jsonb,
   pgTable,
   point,
   serial,
@@ -47,9 +48,9 @@ export const qrCodeTable = pgTable("qr_code", {
   userId: serial("user_id")
     .notNull()
     .references(() => userTable.id, { onDelete: "cascade" }),
-  value: text("value").notNull(),
+  value: jsonb("value").notNull(),
   type: text("type", {
-    enum: ["url", "text", "vcard", "message", "email"],
+    enum: ["url-list", "vcard-plus", "pdf", "gallery", "documents"],
   }).notNull(),
 });
 
@@ -59,7 +60,7 @@ export const analyticsTable = pgTable("analytics", {
     .notNull()
     .references(() => qrCodeTable.id, { onDelete: "cascade" }),
   ip: text("ip"),
-  timestamp: timestamp("timestamp").defaultNow(),
+  timestamp: timestamp("timestamp").notNull().defaultNow(),
   city: text("city"),
   country: text("country"),
   region: text("region"),

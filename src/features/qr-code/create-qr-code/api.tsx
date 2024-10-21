@@ -10,12 +10,12 @@ import { createErrorResponse, createSuccessResponse } from "@/lib/utils";
 import { count, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { QRType } from "../models";
+import { DynamicQRType } from "../models";
 
 const createQRCodeSchema = z.object({
   name: z.string().min(1).max(255),
-  value: z.string().min(1).max(255),
-  type: z.nativeEnum(QRType),
+  value: z.string().min(1),
+  type: z.nativeEnum(DynamicQRType),
 });
 
 export const createQRCode = safeAction
@@ -55,7 +55,7 @@ export const createQRCode = safeAction
 
       const response = await db.insert(qrCodeTable).values({
         name,
-        value,
+        value: JSON.parse(value),
         type,
         userId: user.id,
       });

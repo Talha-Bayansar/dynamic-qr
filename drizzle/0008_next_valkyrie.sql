@@ -1,0 +1,1 @@
+ALTER TABLE "analytics" ALTER COLUMN "timestamp" SET NOT NULL;

@@ -10,13 +10,13 @@ import { createErrorResponse, createSuccessResponse } from "@/lib/utils";
 import { and, count, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { QRType } from "../models";
+import { DynamicQRType } from "../models";
 
 const updateQRCodeSchema = z.object({
   id: z.number(),
   name: z.string().min(1).max(255),
-  value: z.string().min(1).max(255),
-  type: z.nativeEnum(QRType),
+  value: z.string().min(1),
+  type: z.nativeEnum(DynamicQRType),
 });
 
 export const updateQRCode = safeAction
@@ -58,7 +58,7 @@ export const updateQRCode = safeAction
         .update(qrCodeTable)
         .set({
           name,
-          value,
+          value: JSON.parse(value),
           type,
           userId: user.id,
         })

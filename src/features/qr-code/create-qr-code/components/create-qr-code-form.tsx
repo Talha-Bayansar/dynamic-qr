@@ -17,13 +17,13 @@ import { LoadingButton } from "@/components/loading-button";
 import { useAction } from "next-safe-action/hooks";
 import { createQRCode } from "../api";
 import { toast } from "sonner";
-import { QRType } from "../../models";
+import { DynamicQRType } from "../../models";
 import { DynamicQRCodeInput } from "../../components/dynamic-qr-code-input";
 
 const formSchema = z.object({
   name: z.string().min(1),
   value: z.string().min(1),
-  type: z.nativeEnum(QRType),
+  type: z.nativeEnum(DynamicQRType),
 });
 
 type Props = {
@@ -36,7 +36,7 @@ export const CreateQRCodeForm = ({ onSuccess }: Props) => {
     defaultValues: {
       name: "",
       value: "",
-      type: QRType.URL,
+      type: DynamicQRType.URL_LIST,
     },
   });
 
@@ -57,7 +57,7 @@ export const CreateQRCodeForm = ({ onSuccess }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-4 overflow-x-hidden p-1"
       >
         <FormField
           control={form.control}
@@ -81,7 +81,7 @@ export const CreateQRCodeForm = ({ onSuccess }: Props) => {
               <FormControl>
                 <DynamicQRCodeInput
                   value={field.value}
-                  type={form.getValues("type") as QRType}
+                  type={form.getValues("type") as DynamicQRType}
                   onChange={(value, type) => {
                     field.onChange(value);
                     form.setValue("type", type);
