@@ -41,16 +41,20 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const { geo } = request;
-  const headers = new Headers(request.headers);
+  if (request.nextUrl.pathname.startsWith("/api/qr-code/")) {
+    const { geo } = request;
+    const headers = new Headers(request.headers);
 
-  console.log("middleware geo", geo);
+    console.log("middleware geo", geo);
 
-  headers.set("country", geo?.country ?? "");
-  headers.set("city", geo?.city ?? "");
-  headers.set("region", geo?.region ?? "");
-  headers.set("latitude", geo?.latitude ?? "");
-  headers.set("longitude", geo?.longitude ?? "");
+    headers.set("country", geo?.country ?? "");
+    headers.set("city", geo?.city ?? "");
+    headers.set("region", geo?.region ?? "");
+    headers.set("latitude", geo?.latitude ?? "");
+    headers.set("longitude", geo?.longitude ?? "");
 
-  return NextResponse.next({ headers: headers });
+    return NextResponse.next({ headers: headers });
+  }
+
+  return NextResponse.next();
 }

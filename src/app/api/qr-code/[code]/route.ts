@@ -14,14 +14,15 @@ export async function GET(
   }
 ) {
   const ip = req.headers.get("x-real-ip") ?? req.headers.get("x-forwarded-for");
-  console.log("api route next url", req.nextUrl);
-  console.log("api route search params", req.nextUrl.searchParams);
 
   const country = req.headers.get("country");
   const city = req.headers.get("city");
   const region = req.headers.get("region");
   const latitude = req.headers.get("latitude");
   const longitude = req.headers.get("longitude");
+
+  console.log("headers", req.headers);
+  console.log("city", city);
 
   const data = {
     ip: ip,
