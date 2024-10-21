@@ -44,6 +44,33 @@ export const VCardPlus = ({ qrCode }: Props) => {
     },
   ];
 
+  const generateVCard = () => {
+    const vCardData = `
+  BEGIN:VCARD
+  VERSION:3.0
+  FN:${data.name}
+  EMAIL:${data.email}
+  TEL:${data.phone}
+  ADR:${data.address}
+  URL:${data.website}
+  END:VCARD
+  `;
+    return vCardData;
+  };
+
+  const addContact = () => {
+    const vCardData = generateVCard();
+    const blob = new Blob([vCardData], { type: "text/vcard" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = url;
+    a.download = `${data.name}.vcf`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <Main className="w-full justify-center md:items-center">
       <View className="max-w-md gap-8">
@@ -57,9 +84,7 @@ export const VCardPlus = ({ qrCode }: Props) => {
       <Button
         className="fixed bottom-8 right-8 rounded-full w-16 h-16 shadow-lg"
         size="icon"
-        onClick={() => {
-          alert("Add contact functionality to be implemented");
-        }}
+        onClick={addContact}
       >
         <UserPlus className="h-6 w-6" />
         <span className="sr-only">Add Contact</span>
