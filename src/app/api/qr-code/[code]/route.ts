@@ -5,6 +5,8 @@ import { eq } from "drizzle-orm";
 import { notFound, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { code: number } }
