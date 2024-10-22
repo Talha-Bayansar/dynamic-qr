@@ -31,7 +31,7 @@ export const QRCodesOverview = async () => {
         <QRCodeCard
           key={qrCode.name}
           qrCode={qrCode}
-          origin={process.env.VERCEL_URL!}
+          origin={`https://${process.env.VERCEL_URL}`}
         />
       ))}
       <CreateQRCodeButton />
