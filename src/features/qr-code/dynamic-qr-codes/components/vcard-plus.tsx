@@ -6,6 +6,7 @@ import { Globe, LucideIcon, Mail, MapPin, Phone, UserPlus } from "lucide-react";
 import * as types from "../../models";
 import { Main } from "@/components/layout/main";
 import { View } from "@/components/layout/view";
+import VCard from "vcard-creator";
 
 type Props = {
   qrCode: QRCode;
@@ -45,22 +46,19 @@ export const VCardPlus = ({ qrCode }: Props) => {
   ];
 
   const generateVCard = () => {
-    const vCardData = `
-      BEGIN:VCARD
-      VERSION:3.0
-      FN:${data.name}
-      EMAIL:${data.email}
-      TEL:${data.phone}
-      ADR:${data.address}
-      URL:${data.website}
-      END:VCARD
-    `;
-    return vCardData;
+    const vCard = new VCard();
+    vCard
+      // Add personal data
+      .addName(data.name)
+      .addEmail(data.email)
+      .addPhoneNumber(data.phone)
+      .addURL(data.website);
+    return vCard.toString();
   };
 
   const addContact = () => {
     const vCardData = generateVCard();
-    const blob = new Blob([vCardData], { type: "text/plain;charset=utf-8" });
+    const blob = new Blob([vCardData], { type: "text/vcard" });
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
@@ -78,8 +76,8 @@ export const VCardPlus = ({ qrCode }: Props) => {
       <View className="max-w-md gap-8">
         <h1 className="text-2xl font-bold text-center">{data.name}</h1>
         <div className="space-y-4">
-          {infoLines.map((line) => (
-            <InfoLine key={line.value} data={line} />
+          {infoLines.map((line, i) => (
+            <InfoLine key={i} data={line} />
           ))}
         </div>
       </View>
