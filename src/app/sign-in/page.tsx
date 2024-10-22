@@ -10,8 +10,8 @@ type Props = {
 };
 
 export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
+  title: "Sign in",
+  description: "Sign in to DynamicQR and go to your dashboard.",
 };
 
 export default function SignInPage({

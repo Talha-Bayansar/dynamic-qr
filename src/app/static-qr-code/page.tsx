@@ -1,6 +1,12 @@
 import { QrCodeGenerator } from "@/app/static-qr-code/_components/qr-code-generator";
 import { Header } from "../(landing-page)/_components/header";
 import { Footer } from "../(landing-page)/_components/footer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Free QR code generator",
+  description: "Generate QR codes for free.",
+};
 
 const StaticQRCodePage = () => {
   return (

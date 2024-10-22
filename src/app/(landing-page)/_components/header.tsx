@@ -8,7 +8,7 @@ export const Header = () => {
   return (
     <header className="px-4 lg:px-6 flex flex-col items-center py-4 md:flex-row gap-4 justify-between">
       <Link href={routes.root} className="flex items-center justify-center">
-        <Logo className="h-10 w-10" />
+        <Logo className="w-36" />
         <span className="sr-only">DynamicQR</span>
       </Link>
       <nav className="flex flex-col gap-4 sm:gap-6 items-center md:flex-row">
