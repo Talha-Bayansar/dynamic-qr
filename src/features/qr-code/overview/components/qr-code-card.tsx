@@ -21,10 +21,12 @@ import { PreviewButton } from "./preview-button";
 
 type Props = {
   qrCode: QRCode;
+  origin: string;
 };
 
-export const QRCodeCard = ({ qrCode }: Props) => {
+export const QRCodeCard = ({ qrCode, origin }: Props) => {
   const qrCodeRef = useRef<SVGSVGElement>(null);
+
   return (
     <Card key={qrCode.name}>
       <CardHeader>
@@ -38,9 +40,7 @@ export const QRCodeCard = ({ qrCode }: Props) => {
           <QRCodeSVG
             ref={qrCodeRef}
             className="w-full hover:opacity-75"
-            value={`${process.env.NEXT_PUBLIC_BASE_URL}${
-              routes.api.qrCode.code(qrCode.code).root
-            }`}
+            value={`${origin}${routes.api.qrCode.code(qrCode.code).root}`}
           />
         </Link>
       </CardContent>

@@ -28,7 +28,11 @@ export const QRCodesOverview = async () => {
   return (
     <GridView>
       {response.data!.map((qrCode) => (
-        <QRCodeCard key={qrCode.name} qrCode={qrCode} />
+        <QRCodeCard
+          key={qrCode.name}
+          qrCode={qrCode}
+          origin={process.env.VERCEL_URL!}
+        />
       ))}
       <CreateQRCodeButton />
     </GridView>
