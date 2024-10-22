@@ -13,6 +13,21 @@ type Props = {
   };
 };
 
+export async function generateMetadata({ params: { code } }: Props) {
+  const codeNumber = parseInt(code);
+
+  const response = await db
+    .select()
+    .from(qrCodeTable)
+    .where(eq(qrCodeTable.code, codeNumber));
+
+  const qrCode = response[0];
+
+  return {
+    title: qrCode.name,
+  };
+}
+
 const CodePage = async ({ params: { code } }: Props) => {
   const codeNumber = parseInt(code);
   let qrCode: QRCode;

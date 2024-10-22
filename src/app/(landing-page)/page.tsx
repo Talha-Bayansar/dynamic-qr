@@ -29,6 +29,7 @@ import { FeaturesSection } from "./_components/features-section";
 import { SignupSection } from "./_components/signup-section";
 import { Footer } from "./_components/footer";
 import { PricingSection } from "./_components/pricing-section";
+import { Metadata } from "next";
 
 export default function LandingPage() {
   return (
