@@ -24,3 +24,8 @@ export type VCardPlus = {
   country: string;
   website: string;
 };
+
+export type UrlListItem = {
+  label: string;
+  url: string;
+};

@@ -8,6 +8,7 @@ import { UrlInput } from "./url-input";
 import { TextInput } from "./text-input";
 import { VCardPlusInput } from "./vcard-plus-input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { UrlListInput } from "./url-list-input";
 
 type Props = {
   onChange?: (value: string, type: DynamicQRType) => void;
@@ -37,7 +38,7 @@ export function DynamicQRCodeInput({
   const renderInputs = () => {
     switch (activeTab) {
       case DynamicQRType.URL_LIST:
-        return <UrlInput value={qrData} onChange={handleInputChange} />;
+        return <UrlListInput value={qrData} onChange={handleInputChange} />;
       case DynamicQRType.VCARD_PLUS:
         return <VCardPlusInput value={qrData} onChange={handleInputChange} />;
       case DynamicQRType.DOCUMENTS:

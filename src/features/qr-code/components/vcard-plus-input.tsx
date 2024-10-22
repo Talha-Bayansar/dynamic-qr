@@ -3,6 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { VCardPlus } from "../models";
+import { View } from "@/components/layout/view";
 
 type Props = {
   value: string;
@@ -24,8 +25,8 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
       };
 
   return (
-    <div className="flex gap-4 flex-col">
-      <div className="flex flex-col gap-2">
+    <View>
+      <View className="gap-2">
         <Label htmlFor="name">Name</Label>
         <Input
           id="name"
@@ -40,8 +41,8 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
             )
           }
         />
-      </div>
-      <div className="flex flex-col gap-2">
+      </View>
+      <View className="gap-2">
         <Label htmlFor="phone">Phone</Label>
         <Input
           id="phone"
@@ -58,8 +59,8 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
             )
           }
         />
-      </div>
-      <div className="flex flex-col gap-2">
+      </View>
+      <View className="gap-2">
         <Label htmlFor="email">Email</Label>
         <Input
           id="email"
@@ -76,8 +77,8 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
             )
           }
         />
-      </div>
-      <div className="flex flex-col gap-2">
+      </View>
+      <View className="gap-2">
         <Label htmlFor="street">Street</Label>
         <Input
           id="street"
@@ -92,8 +93,8 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
             )
           }
         />
-      </div>
-      <div className="flex flex-col gap-2">
+      </View>
+      <View className="gap-2">
         <Label htmlFor="zip">ZIP or postal code</Label>
         <Input
           id="zip"
@@ -108,8 +109,8 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
             )
           }
         />
-      </div>
-      <div className="flex flex-col gap-2">
+      </View>
+      <View className="gap-2">
         <Label htmlFor="city">City</Label>
         <Input
           id="city"
@@ -124,8 +125,8 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
             )
           }
         />
-      </div>
-      <div className="flex flex-col gap-2">
+      </View>
+      <View className="gap-2">
         <Label htmlFor="country">Country</Label>
         <Input
           id="country"
@@ -140,8 +141,8 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
             )
           }
         />
-      </div>
-      <div className="flex flex-col gap-2">
+      </View>
+      <View className="gap-2">
         <Label htmlFor="website">Website</Label>
         <Input
           id="website"
@@ -158,7 +159,7 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
             )
           }
         />
-      </div>
-    </div>
+      </View>
+    </View>
   );
 };

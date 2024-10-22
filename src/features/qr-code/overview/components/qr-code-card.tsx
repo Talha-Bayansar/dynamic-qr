@@ -32,7 +32,10 @@ export const QRCodeCard = ({ qrCode, origin }: Props) => {
       <CardHeader>
         <CardTitle>{qrCode.name}</CardTitle>
         <CardDescription>
-          Type of <span className="uppercase font-bold">{qrCode.type}</span>
+          Type of{" "}
+          <span className="uppercase font-bold">
+            {qrCode.type.replaceAll("-", " ")}
+          </span>
         </CardDescription>
       </CardHeader>
       <CardContent>
