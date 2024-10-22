@@ -46,38 +46,24 @@ export const VCardPlus = ({ qrCode }: Props) => {
 
   const generateVCard = () => {
     const vCardData = `
-  BEGIN:VCARD
-  VERSION:3.0
-  FN:${data.name}
-  EMAIL:${data.email}
-  TEL:${data.phone}
-  ADR:${data.address}
-  URL:${data.website}
-  END:VCARD
-  `;
+      BEGIN:VCARD
+      VERSION:3.0
+      FN:${data.name}
+      EMAIL:${data.email}
+      TEL:${data.phone}
+      ADR:${data.address}
+      URL:${data.website}
+      END:VCARD
+    `;
     return vCardData;
   };
 
-  const addContactNewTab = () => {
+  const addContact = () => {
     const vCardData = generateVCard();
-    const vCardUrl = `data:text/vcard;charset=utf-8,${encodeURIComponent(
-      vCardData
-    )}`;
+    const blob = new Blob([vCardData], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
-    a.href = vCardUrl;
-    a.download = `${data.name}.vcf`;
-    a.target = "_blank"; // Open in a new tab
-    a.click();
-  };
-
-  const addContactBlob = () => {
-    const vCardData = generateVCard();
-    const blob = new Blob([vCardData], { type: "text/vcard;charset=utf-8" });
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.style.display = "none";
     a.href = url;
     a.download = `${data.name}.vcf`;
     document.body.appendChild(a);
@@ -85,24 +71,6 @@ export const VCardPlus = ({ qrCode }: Props) => {
 
     window.URL.revokeObjectURL(url); // Clean up the URL object
     document.body.removeChild(a); // Clean up the anchor element
-  };
-
-  const addContactMail = () => {
-    const vCardData = generateVCard();
-    const mailtoLink = `mailto:?subject=Contact&body=${encodeURIComponent(
-      vCardData
-    )}`;
-
-    window.location.href = mailtoLink; // Opens email app to add contact
-  };
-
-  const addContactHref = () => {
-    const vCardData = generateVCard();
-    const vCardUrl = `data:text/vcard;charset=utf-8,${encodeURIComponent(
-      vCardData
-    )}`;
-
-    window.location.href = vCardUrl;
   };
 
   return (
@@ -118,31 +86,7 @@ export const VCardPlus = ({ qrCode }: Props) => {
       <Button
         className="fixed bottom-8 right-8 rounded-full w-16 h-16 shadow-lg"
         size="icon"
-        onClick={addContactNewTab}
-      >
-        <UserPlus className="h-6 w-6" />
-        <span className="sr-only">Add Contact</span>
-      </Button>
-      <Button
-        className="fixed top-8 right-8 rounded-full w-16 h-16 shadow-lg"
-        size="icon"
-        onClick={addContactBlob}
-      >
-        <UserPlus className="h-6 w-6" />
-        <span className="sr-only">Add Contact</span>
-      </Button>
-      <Button
-        className="fixed top-8 left-8 rounded-full w-16 h-16 shadow-lg"
-        size="icon"
-        onClick={addContactMail}
-      >
-        <UserPlus className="h-6 w-6" />
-        <span className="sr-only">Add Contact</span>
-      </Button>
-      <Button
-        className="fixed bottom-8 left-8 rounded-full w-16 h-16 shadow-lg"
-        size="icon"
-        onClick={addContactHref}
+        onClick={addContact}
       >
         <UserPlus className="h-6 w-6" />
         <span className="sr-only">Add Contact</span>
