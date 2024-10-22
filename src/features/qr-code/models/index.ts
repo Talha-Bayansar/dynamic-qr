@@ -18,6 +18,9 @@ export type VCardPlus = {
   name: string;
   phone: string;
   email: string;
-  address: string;
+  street: string;
+  zip: string;
+  city: string;
+  country: string;
   website: string;
 };

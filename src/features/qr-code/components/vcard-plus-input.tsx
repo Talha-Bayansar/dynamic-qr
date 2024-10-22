@@ -17,7 +17,10 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
         phone: "",
         email: "",
         website: "",
-        address: "",
+        street: "",
+        city: "",
+        zip: "",
+        country: "",
       };
 
   return (
@@ -75,16 +78,64 @@ export const VCardPlusInput = ({ value, onChange }: Props) => {
         />
       </div>
       <div className="flex flex-col gap-2">
-        <Label htmlFor="address">Address</Label>
+        <Label htmlFor="street">Street</Label>
         <Input
-          id="address"
-          placeholder="Address"
-          value={data.address || ""}
+          id="street"
+          placeholder="Street"
+          value={data.street || ""}
           onChange={(e) =>
             onChange(
               JSON.stringify({
                 ...data,
-                address: e.target.value,
+                street: e.target.value,
+              })
+            )
+          }
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="zip">ZIP or postal code</Label>
+        <Input
+          id="zip"
+          placeholder="ZIP or postal code"
+          value={data.zip || ""}
+          onChange={(e) =>
+            onChange(
+              JSON.stringify({
+                ...data,
+                zip: e.target.value,
+              })
+            )
+          }
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="city">City</Label>
+        <Input
+          id="city"
+          placeholder="City"
+          value={data.city || ""}
+          onChange={(e) =>
+            onChange(
+              JSON.stringify({
+                ...data,
+                city: e.target.value,
+              })
+            )
+          }
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="country">Country</Label>
+        <Input
+          id="country"
+          placeholder="Country"
+          value={data.country || ""}
+          onChange={(e) =>
+            onChange(
+              JSON.stringify({
+                ...data,
+                country: e.target.value,
               })
             )
           }

@@ -17,6 +17,7 @@ import { useRef } from "react";
 import { Download } from "lucide-react";
 import { routes } from "@/lib/routes";
 import Link from "next/link";
+import { PreviewButton } from "./preview-button";
 
 type Props = {
   qrCode: QRCode;
@@ -44,6 +45,7 @@ export const QRCodeCard = ({ qrCode }: Props) => {
         </Link>
       </CardContent>
       <CardFooter className="justify-end">
+        <PreviewButton qrCode={qrCode} />
         <DownloadQRCodeButton
           variant={"ghost"}
           size={"icon"}

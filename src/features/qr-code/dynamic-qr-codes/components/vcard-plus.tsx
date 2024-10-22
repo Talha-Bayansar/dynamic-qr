@@ -40,7 +40,7 @@ export const VCardPlus = ({ qrCode }: Props) => {
       isWebsite: true,
     },
     {
-      value: data.address,
+      value: `${data.street}, ${data.city} ${data.zip}, ${data.country}`,
       Icon: MapPin,
     },
   ];
@@ -52,6 +52,15 @@ export const VCardPlus = ({ qrCode }: Props) => {
       .addName(data.name)
       .addEmail(data.email)
       .addPhoneNumber(data.phone)
+      .addAddress(
+        undefined,
+        undefined,
+        data.street,
+        data.city,
+        undefined,
+        data.zip,
+        data.country
+      )
       .addURL(data.website);
     return vCard.toString();
   };
